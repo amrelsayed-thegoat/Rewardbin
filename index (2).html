@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RewardBin | Throw. Earn. Redeem.</title>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{font-family:Arial,Helvetica,sans-serif;background:#f4f7f5;color:#17211b}
+    nav{height:75px;background:#101814;color:white;display:flex;align-items:center;justify-content:space-between;padding:0 7%;position:sticky;top:0;z-index:10}
+    .logo{display:flex;align-items:center;gap:12px;font-size:24px;font-weight:900}
+    .logo-box{width:47px;height:47px;border-radius:13px;background:linear-gradient(135deg,#18d36b,#08733d);display:flex;align-items:center;justify-content:center;font-weight:900;font-size:20px}
+    .nav-links{display:flex;gap:30px}.nav-links a{color:white;text-decoration:none;font-weight:bold}
+    .hero{min-height:650px;background:radial-gradient(circle at 80% 20%,#195c3a 0%,transparent 35%),linear-gradient(135deg,#101914,#0b291b);color:white;display:grid;grid-template-columns:1fr 1fr;align-items:center;padding:70px 7%;gap:50px}
+    .tag{display:inline-block;border:1px solid #29d779;color:#58e695;padding:8px 14px;border-radius:30px;margin-bottom:22px;font-size:14px;font-weight:bold}
+    h1{font-size:78px;line-height:.92;margin-bottom:25px;letter-spacing:-4px}.green{color:#19d66c}
+    .hero-text p{color:#ccd7d0;max-width:580px;font-size:18px;line-height:1.6}
+    .hero-buttons{margin-top:30px;display:flex;gap:15px}
+    .button{display:inline-block;padding:15px 25px;border-radius:12px;text-decoration:none;font-weight:bold}
+    .primary{background:#19d66c;color:#07190f}.secondary{border:1px solid #8b9a91;color:white}
+    .bin-area{height:500px;display:flex;align-items:center;justify-content:center;position:relative}
+    .bin-shadow{position:absolute;bottom:35px;width:290px;height:45px;background:rgba(0,0,0,.45);border-radius:50%;filter:blur(15px)}
+    .bin{width:260px;height:390px;border-radius:25px 25px 35px 35px;background:linear-gradient(90deg,#111 0%,#252c28 18%,#161b18 65%,#080b09 100%);border:2px solid #343c37;position:relative;box-shadow:0 35px 50px rgba(0,0,0,.55),inset 8px 0 15px rgba(255,255,255,.05)}
+    .bin::after{content:"";position:absolute;inset:4px;border-radius:22px 22px 32px 32px;border-right:4px solid #16db6f;pointer-events:none}
+    .bin-top{width:275px;height:70px;position:absolute;top:-40px;left:-9px;background:linear-gradient(#303a34,#101411);border-radius:20px;border:2px solid #3c4640}
+    .trash-slot{position:absolute;width:180px;height:43px;background:#020504;top:14px;left:46px;border-radius:12px;box-shadow:inset 0 10px 15px black,0 0 10px #13cd65}
+    .bin-screen{position:absolute;top:85px;left:47px;width:165px;height:120px;background:linear-gradient(#0b4c69,#082b3e);border:6px solid #242c27;border-radius:12px;color:white;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;box-shadow:0 5px 10px rgba(0,0,0,.5)}
+    .check{width:34px;height:34px;border-radius:50%;background:#16d76b;display:flex;align-items:center;justify-content:center;margin-bottom:8px;font-weight:bold}
+    .bin-name{position:absolute;bottom:80px;width:100%;text-align:center;color:white;font-weight:900;font-size:24px}
+    .bin-slogan{font-size:10px;color:#c8d4cd;margin-top:5px}.recycle{position:absolute;bottom:25px;width:100%;text-align:center;font-size:38px;color:#17da6b}
+    section{padding:90px 7%}.section-heading{text-align:center;margin-bottom:50px}
+    .section-heading h2{font-size:48px;margin-bottom:10px}.section-heading p{color:#69766e;font-size:18px}
+    .cards{max-width:1200px;margin:auto;display:grid;grid-template-columns:repeat(3,1fr);gap:25px}
+    .card{background:white;padding:32px;border-radius:20px;border:1px solid #dce3de;box-shadow:0 12px 35px rgba(25,55,37,.08)}
+    .number{width:45px;height:45px;border-radius:12px;background:#19d66c;display:flex;align-items:center;justify-content:center;font-weight:900;margin-bottom:20px}
+    .card h3{font-size:22px;margin-bottom:12px}.card p{color:#67736b;line-height:1.6}
+    .problem{background:#111c16;color:white}.problem-box{max-width:1100px;margin:auto;display:grid;grid-template-columns:1fr 1fr;gap:50px;align-items:center}
+    .problem h2{font-size:50px;margin-bottom:18px}.problem p{color:#c0cec5;font-size:18px;line-height:1.7}
+    .stats{display:grid;grid-template-columns:1fr 1fr;gap:15px}.stat{background:#1d3025;border-radius:15px;padding:24px}.stat strong{color:#49e491;display:block;font-size:24px;margin-bottom:5px}
+    .secret-section{padding:100px 20px;text-align:center;background:linear-gradient(135deg,#075431,#12834d);color:white}.secret-section h2{font-size:65px;margin-bottom:12px}.secret-section p{font-size:18px;color:#d4e8dc}
+    #codeInput{width:360px;max-width:90%;height:85px;margin-top:35px;border-radius:20px;border:3px solid #17211b;font-size:30px;font-weight:bold;text-align:center;letter-spacing:10px;outline:none}
+    #codeError{color:#ffd3d3;margin-top:15px;display:none;font-weight:bold}
+    #secretPage{display:none;position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:100;align-items:center;justify-content:center;padding:20px}
+    .secret-card{width:600px;max-width:95%;background:white;color:#152019;border-radius:25px;padding:45px;text-align:center;position:relative}
+    .secret-card h2{font-size:35px;margin-bottom:20px}.secret-message{font-weight:900;font-size:21px;line-height:1.5}
+    .close{position:absolute;right:20px;top:15px;border:none;background:none;font-size:32px;cursor:pointer}
+    footer{background:#0c1410;color:#aab8af;padding:45px 7%;text-align:center}footer strong{color:white}
+    @media(max-width:850px){.nav-links{display:none}.hero{grid-template-columns:1fr}h1{font-size:57px}.cards{grid-template-columns:1fr}.problem-box{grid-template-columns:1fr}.secret-section h2{font-size:45px}}
+  </style>
+</head>
+<body>
+<nav>
+  <div class="logo"><div class="logo-box">RB</div>RewardBin</div>
+  <div class="nav-links">
+    <a href="#">Home</a>
+    <a href="#how">How It Works</a>
+    <a href="#benefits">Benefits</a>
+    <a href="#secret">Rewards</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-text">
+    <div class="tag">🌱 A Cleaner Future, Together</div>
+    <h1>Throw.<br><span class="green">Earn.</span><br>Redeem.</h1>
+    <p>RewardBin is a smart rubbish bin made for schools and communities. Throw rubbish into the bin, earn reward tokens and redeem them for prizes.</p>
+    <div class="hero-buttons">
+      <a href="#how" class="button primary">Learn More</a>
+      <a href="#secret" class="button secondary">Rewards</a>
+    </div>
+  </div>
+
+  <div class="bin-area">
+    <div class="bin-shadow"></div>
+    <div class="bin">
+      <div class="bin-top"><div class="trash-slot"></div></div>
+      <div class="bin-screen">
+        <div class="check">✓</div>
+        <strong>Thank you!</strong><br>+1 TOKEN
+      </div>
+      <div class="bin-name">Reward<span class="green">Bin</span><div class="bin-slogan">THROW. EARN. REDEEM.</div></div>
+      <div class="recycle">♻</div>
+    </div>
+  </div>
+</div>
+
+<section class="problem">
+  <div class="problem-box">
+    <div>
+      <h2>The Problem</h2>
+      <p>Rubbish is often left on the ground in schools, parks and public places. Normal rubbish bins do not give people a reason to use them. RewardBin gives people a reward for making the right choice.</p>
+    </div>
+    <div class="stats">
+      <div class="stat"><strong>Less Litter</strong>Cleaner school areas.</div>
+      <div class="stat"><strong>Rewards</strong>Earn tokens for rubbish.</div>
+      <div class="stat"><strong>More Fun</strong>Makes cleaning up rewarding.</div>
+      <div class="stat"><strong>Community</strong>Made for schools and parks.</div>
+    </div>
+  </div>
+</section>
+
+<section id="how">
+  <div class="section-heading"><h2>How It Works</h2><p>Three easy steps.</p></div>
+  <div class="cards">
+    <div class="card"><div class="number">1</div><h3>Throw</h3><p>Put your rubbish into the RewardBin. Sensors inside the bin detect when rubbish is placed inside.</p></div>
+    <div class="card"><div class="number">2</div><h3>Earn</h3><p>The RewardBin gives you a token for correctly throwing away your rubbish.</p></div>
+    <div class="card"><div class="number">3</div><h3>Redeem</h3><p>Save your tokens and exchange them for rewards, food or special prizes.</p></div>
+  </div>
+</section>
+
+<section id="benefits">
+  <div class="section-heading"><h2>Why RewardBin?</h2><p>A smarter way to keep our community clean.</p></div>
+  <div class="cards">
+    <div class="card"><h3>🗑 Less Rubbish</h3><p>Encourages people to use bins instead of dropping rubbish on the ground.</p></div>
+    <div class="card"><h3>🪙 Earn Rewards</h3><p>People receive something back for helping keep the environment clean.</p></div>
+    <div class="card"><h3>🌏 Cleaner Community</h3><p>RewardBin can help schools, parks and communities become cleaner places.</p></div>
+  </div>
+</section>
+
+<section class="secret-section" id="secret">
+  <h2>Throw. Earn. Redeem.</h2>
+  <p>RewardBin makes doing the right thing rewarding.</p>
+  <input type="password" id="codeInput" placeholder="CODE" maxlength="4" inputmode="numeric">
+  <div id="codeError">Wrong code. Try again.</div>
+</section>
+
+<div id="secretPage">
+  <div class="secret-card">
+    <button class="close" onclick="closeSecret()">×</button>
+    <h2>😏 You found the secret page</h2>
+    <div style="font-size:100px;padding:40px;border-radius:18px;background:#e8f4ec;margin-bottom:20px">😂</div>
+    <div class="secret-message">Got you, now you owe me, Furqan, Omer pizza and extra marks.</div>
+  </div>
+</div>
+
+<footer>
+  <strong>RewardBin</strong><br><br>
+  Throw. Earn. Redeem.<br><br>
+  © 2026 RewardBin
+</footer>
+
+<script>
+  const input=document.getElementById("codeInput");
+  const error=document.getElementById("codeError");
+  const secret=document.getElementById("secretPage");
+
+  input.addEventListener("input",function(){
+    this.value=this.value.replace(/\D/g,"");
+    error.style.display="none";
+    if(this.value==="1234"){
+      secret.style.display="flex";
+      this.value="";
+    }else if(this.value.length===4){
+      error.style.display="block";
+    }
+  });
+
+  function closeSecret(){secret.style.display="none";}
+
+  secret.addEventListener("click",function(event){
+    if(event.target===secret)closeSecret();
+  });
+</script>
+</body>
+</html>
